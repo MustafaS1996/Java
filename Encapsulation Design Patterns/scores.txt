@@ -1,0 +1,173 @@
+Student: sarwars
+ShapeTest passes (max 20, -3 per failure, min 0): 20
+AnimationTester7 runs and shows boxed car and dogs (max 3): 3
+No CheckStyle issues (max 3): 3
+Clean submission directory (no .class, .metadata etc.) (max 3): 2
+At least 3 git checkins (max 3): 3
+--------------------------------------------------
+ShapeTest
+.
++-- JUnit Jupiter [OK]
+| '-- ShapeTest [OK]
+|   +-- testDrawnCompound() [OK]
+|   +-- testDogBounds() [OK]
+|   +-- testCarBounds() [OK]
+|   +-- testDrawnBox() [OK]
+|   +-- testSimpleMoveStrategy() [OK]
+|   +-- testMovedCompound() [OK]
+|   +-- testBoundedMoveStrategy() [OK]
+|   +-- testMovedBox() [OK]
+|   +-- testCompoundBounds() [OK]
+|   '-- testBoxedBounds() [OK]
+'-- JUnit Vintage [OK]
+
+Test run finished after 636 ms
+[         3 containers found      ]
+[         0 containers skipped    ]
+[         3 containers started    ]
+[         0 containers aborted    ]
+[         3 containers successful ]
+[         0 containers failed     ]
+[        10 tests found           ]
+[         0 tests skipped         ]
+[        10 tests started         ]
+[         0 tests aborted         ]
+[        10 tests successful      ]
+[         0 tests failed          ]
+
+-------------------------------------------------
+-------------------------------------------------
+Starting audit...
+Audit done.
+--------------------------------------------------
+Submitted files other than Java or images
+.idea
+scores.txt
+--------------------------------------------------
+Look at /Users/shreyagangishetty/Documents/CS151/repos/sarwars/hw6/screencapture.jpg
+--------------------------------------------------
+commit 6f88553e7c47dddffc7d180b8e6f9b636d77f7e3
+Author: Mustafa <sarwarm00@yahoo.com>
+Date:   Thu Mar 14 01:25:30 2019 -0700
+
+    hw6 complete
+
+:100644 100644 1f533b4 44b5799 M	hw6/.idea/workspace.xml
+:100644 100644 e6a2ccb e6a2ccb R100	hw6/src/Animation.java	hw6/Animation.java
+:100644 100644 5e87746 e07ba48 R094	hw6/src/AnimationTester.java	hw6/AnimationTester.java
+:100644 100644 3263b12 3263b12 R100	hw6/src/BouncingBall.java	hw6/BouncingBall.java
+:100644 100644 8d4947c 8d4947c R100	hw6/src/BoundedMoveStrategy.java	hw6/BoundedMoveStrategy.java
+:100644 100644 78376fa 78376fa R100	hw6/src/BoxedShape.java	hw6/BoxedShape.java
+:100644 100644 9545285 f5c369b R097	hw6/src/CarShape.java	hw6/CarShape.java
+:100644 100644 4921c9a 4921c9a R100	hw6/src/CompoundShape.java	hw6/CompoundShape.java
+:100644 100644 247706a 247706a R100	hw6/src/MoveStrategy.java	hw6/MoveStrategy.java
+:100644 100644 105580f 105580f R100	hw6/src/MoveableIcon.java	hw6/MoveableIcon.java
+:100644 100644 87a7c48 87a7c48 R100	hw6/src/MoveableShape.java	hw6/MoveableShape.java
+:100644 100644 119c415 119c415 R100	hw6/src/ShapeIcon.java	hw6/ShapeIcon.java
+:100644 100644 aa886fd aa886fd R100	hw6/src/SimpleMoveStrategy.java	hw6/SimpleMoveStrategy.java
+:100644 000000 c90834f 0000000 D	hw6/hw6.iml
+:100644 000000 461bc8b 0000000 D	hw6/out/production/hw6/Animation.class
+:100644 000000 98eb3e0 0000000 D	hw6/out/production/hw6/AnimationTester.class
+:100644 000000 c0bac53 0000000 D	hw6/out/production/hw6/BouncingBall.class
+:100644 000000 df237a7 0000000 D	hw6/out/production/hw6/BoundedMoveStrategy.class
+:100644 000000 8843387 0000000 D	hw6/out/production/hw6/BoxedShape.class
+:100644 000000 21ca183 0000000 D	hw6/out/production/hw6/CarShape.class
+:100644 000000 83fd8f3 0000000 D	hw6/out/production/hw6/CompoundShape.class
+:100644 000000 8fb6019 0000000 D	hw6/out/production/hw6/META-INF/hw6.kotlin_module
+:100644 000000 b46ee69 0000000 D	hw6/out/production/hw6/MoveStrategy.class
+:100644 000000 f58f216 0000000 D	hw6/out/production/hw6/MoveableIcon.class
+:100644 000000 3133b3c 0000000 D	hw6/out/production/hw6/MoveableShape.class
+:100644 000000 01c8fa6 0000000 D	hw6/out/production/hw6/ShapeIcon.class
+:100644 000000 5b6f2ec 0000000 D	hw6/out/production/hw6/SimpleMoveStrategy.class
+
+commit 72a2dbe6d710faa6f087204355de6b524b2b424d
+Author: Mustafa <sarwarm00@yahoo.com>
+Date:   Thu Mar 14 01:15:37 2019 -0700
+
+    hw6 near complete
+
+:100644 100644 bdf3f68 1f533b4 M	hw6/.idea/workspace.xml
+:100644 100644 2a15c53 461bc8b M	hw6/out/production/hw6/Animation.class
+:100644 100644 f09669d 98eb3e0 M	hw6/out/production/hw6/AnimationTester.class
+:100644 000000 9eed9ef 0000000 D	hw6/out/production/hw6/AnimationTesters.class
+:100644 100644 dc7d5c9 c0bac53 M	hw6/out/production/hw6/BouncingBall.class
+:000000 100644 0000000 df237a7 A	hw6/out/production/hw6/BoundedMoveStrategy.class
+:100644 100644 73b2202 8843387 M	hw6/out/production/hw6/BoxedShape.class
+:100644 100644 467fd2a 21ca183 M	hw6/out/production/hw6/CarShape.class
+:100644 100644 732e18f 83fd8f3 M	hw6/out/production/hw6/CompoundShape.class
+:000000 100644 0000000 8fb6019 A	hw6/out/production/hw6/META-INF/hw6.kotlin_module
+:000000 100644 0000000 b46ee69 A	hw6/out/production/hw6/MoveStrategy.class
+:100644 100644 9cdcbcb f58f216 M	hw6/out/production/hw6/MoveableIcon.class
+:100644 100644 a0303dd 01c8fa6 M	hw6/out/production/hw6/ShapeIcon.class
+:000000 100644 0000000 5b6f2ec A	hw6/out/production/hw6/SimpleMoveStrategy.class
+:100644 100644 83c17cc e6a2ccb M	hw6/src/Animation.java
+:100644 100644 12a6b3c 5e87746 M	hw6/src/AnimationTester.java
+:100644 000000 7383f0c 0000000 D	hw6/src/AnimationTesters.java
+:100644 100644 cbcecb8 3263b12 M	hw6/src/BouncingBall.java
+:000000 100644 0000000 8d4947c A	hw6/src/BoundedMoveStrategy.java
+:100644 100644 064a6cc 78376fa M	hw6/src/BoxedShape.java
+:100644 100644 d6e2639 9545285 M	hw6/src/CarShape.java
+:100644 100644 ec19a83 4921c9a M	hw6/src/CompoundShape.java
+:000000 100644 0000000 247706a A	hw6/src/MoveStrategy.java
+:100644 100644 d1cb668 105580f M	hw6/src/MoveableIcon.java
+:100644 100644 1accb66 119c415 M	hw6/src/ShapeIcon.java
+:000000 100644 0000000 aa886fd A	hw6/src/SimpleMoveStrategy.java
+
+commit 6e3938fc9f7f3e7ce86f775e34a099ba4468246f
+Author: Mustafa <sarwarm00@yahoo.com>
+Date:   Tue Mar 12 23:23:26 2019 -0700
+
+    hw6 up to 6 completed
+
+:000000 100644 0000000 3918e38 A	hw6/.idea/checkstyle-idea.xml
+:000000 100644 0000000 15a15b2 A	hw6/.idea/encodings.xml
+:000000 100644 0000000 e0844bc A	hw6/.idea/misc.xml
+:000000 100644 0000000 8d936c5 A	hw6/.idea/modules.xml
+:000000 100644 0000000 bdf3f68 A	hw6/.idea/workspace.xml
+:000000 100644 0000000 d1b073e A	hw6/dog.png
+:000000 100644 0000000 c90834f A	hw6/hw6.iml
+:000000 100644 0000000 2a15c53 A	hw6/out/production/hw6/Animation.class
+:000000 100644 0000000 f09669d A	hw6/out/production/hw6/AnimationTester.class
+:000000 100644 0000000 9eed9ef A	hw6/out/production/hw6/AnimationTesters.class
+:000000 100644 0000000 dc7d5c9 A	hw6/out/production/hw6/BouncingBall.class
+:000000 100644 0000000 73b2202 A	hw6/out/production/hw6/BoxedShape.class
+:000000 100644 0000000 467fd2a A	hw6/out/production/hw6/CarShape.class
+:000000 100644 0000000 732e18f A	hw6/out/production/hw6/CompoundShape.class
+:000000 100644 0000000 9cdcbcb A	hw6/out/production/hw6/MoveableIcon.class
+:000000 100644 0000000 3133b3c A	hw6/out/production/hw6/MoveableShape.class
+:000000 100644 0000000 a0303dd A	hw6/out/production/hw6/ShapeIcon.class
+:000000 100644 0000000 83c17cc A	hw6/src/Animation.java
+:000000 100644 0000000 12a6b3c A	hw6/src/AnimationTester.java
+:000000 100644 0000000 7383f0c A	hw6/src/AnimationTesters.java
+:000000 100644 0000000 cbcecb8 A	hw6/src/BouncingBall.java
+:000000 100644 0000000 064a6cc A	hw6/src/BoxedShape.java
+:000000 100644 0000000 d6e2639 A	hw6/src/CarShape.java
+:000000 100644 0000000 ec19a83 A	hw6/src/CompoundShape.java
+:000000 100644 0000000 d1cb668 A	hw6/src/MoveableIcon.java
+:000000 100644 0000000 87a7c48 A	hw6/src/MoveableShape.java
+:000000 100644 0000000 1accb66 A	hw6/src/ShapeIcon.java
+
+commit fcf8a4cbb4d707f17f08d5e27b4f984675461c13
+Author: Mustafa <sarwarm00@yahoo.com>
+Date:   Tue Mar 12 23:22:33 2019 -0700
+
+    hw7 started
+
+:100644 100644 764c6e8 37857ac M	hw5/.idea/workspace.xml
+:000000 100644 0000000 6c0b863 A	hw6/.idea/vcs.xml
+
+commit e07b5912d73e17021a93f54e851b1ea8c2f7b876
+Author: Cay Horstmann <cay.horstmann@sjsu.edu>
+Date:   Tue Mar 12 21:03:37 2019 -0700
+
+    Exam1 scores
+
+:000000 100644 0000000 dc1f743 A	exam1/scores.txt
+
+commit 10c7e583915c0a402c0638f52b2a355bbf98440d
+Author: Shreya Gangishetty <sgangishetty@hypergrid.com>
+Date:   Sat Mar 9 19:32:03 2019 -0800
+
+    hw5/scores.txt
+
+:000000 100644 0000000 eec2c55 A	hw5/scores.txt
