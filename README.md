@@ -1,6 +1,6 @@
 # Java
 
-**Encapsulation with Design Patterns**__
+**Encapsulation with Design Patterns**  
   Classes of objects using the MoveableShape interface with methods of move draw and getBounds__
     BoundedShape object creates a border around each MoveabelShape__
     CompoundShape compounds each MoveableShape__
