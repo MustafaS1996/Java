@@ -9,4 +9,4 @@
     
     
 **Sorting Algortihms**  
-  written by Mustafa Sarwar following psuedoCode provided in the book Introduction to Algorithms by Thomas H. Cormen (Author), Charles E. Leiserson (Author), Ronald L. Rivest (Author), Clifford Stein (Author)
+  Written by Mustafa Sarwar following psuedoCode provided in the book Introduction to Algorithms by Thomas H. Cormen (Author), Charles E. Leiserson (Author), Ronald L. Rivest (Author), Clifford Stein (Author)
