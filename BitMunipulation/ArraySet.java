@@ -1,170 +1,193 @@
-import javax.print.attribute.standard.Destination;
-import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
-/**
- * Author: Syed Mustafa Sarwar
- */
 public class ArraySet implements IntSet
 {
-   /**
-    * Setter for new ArraySets
-    */
-   public ArraySet() {
-      this.elementCount = 0;
-      this.elements = new int[10];
+    /**
+     *  ArraySetIterator
+     *  work through the iterator design
+     */
+
+    private class ArraySetIterator implements Iterator<Integer>
+    {
+        private int modCountl = modCountg;
+        private boolean afterNext = false;
+        private int nextIndex;
+
+        /**
+         *
+         * @return boolean if next available
+         */
+
+        @Override
+        public boolean hasNext() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
+            }
+            return nextIndex < elementCount;}
+
+        /**
+         *
+         * @return the next integer
+         */
+
+        @Override
+        public Integer next() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
+            }
+            if (this.hasNext()) {
+                Integer result = ArraySet.this.elements[nextIndex];
+                nextIndex++;
+                afterNext = true;
+                return result;
+
+            }else {
+                throw new NoSuchElementException();
+            }
 
 
-   }
+        }
 
-   /**
-    *
-    * @param n integer to be tested in array
-    * @return boolean test
-    */
+        /**
+         *  remove the current element
+         */
 
-   public boolean test(int n)
-   {
-
-      this.test = false;
-      for (int i = 0; i < elementCount; i++){
-         if (elements[i] == n) {
-            this.test = true;
-            this.zerIndex = i;
-            System.out.println("found: " + n + " " + test + " in index " + zerIndex);
-            this.largest = max();
-            this.smallest = min();
-         }
-      }
-      return test;
-
-   }
-
-   /**
-    *
-    * @param n an integer to be removed from array if found
-    */
-
-   public void clear(int n) 
-   {
-      if (test(n)) {
-         System.out.println("clearing: " + n + " at " + zerIndex);
-         temp = elements[elementCount-1];
-         System.out.println("inserting: " + elements[elementCount-1]);
-         elements[zerIndex] = temp;
-         elements[elementCount-1] = 0;
-         elementCount--;
-         this.largest = max();
-         this.smallest = min();
-      }
-      else {
-         System.out.println("ERROR: " + n +  " not an element in array");
-      }
-      System.out.println(Arrays.toString(elements));
+        @Override
+        public void remove() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
+            }
+            if (afterNext == false) {
+                throw new IllegalStateException();
+            }
+                int num = elements[nextIndex-1];
+                clear(num);
 
 
-   }
 
-   /**
-    *
-    * @param n int set into elements array
-    */
+            modCountl++;
 
-   public void set(int n)
-   {
-      if (elementCount >= elements.length ) {
-         System.out.println(elementCount + " expanding... "  );
-         elements = Arrays.copyOf(elements,elements.length*2);
-         elementCount++;
-         System.out.println(elementCount + " setting: " + n );
-         elements[elementCount-1] = n;
-         this.largest = max();
-         this.smallest = min();
+            afterNext = false;
 
-      }
-      else {
+        }
 
-         elementCount++;
-         System.out.println(elementCount + " setting: " + n );
-         elements[elementCount-1] = n;
-         this.largest = max();
-         this.smallest = min();
+    }
 
-      }
-      int temps = elementCount - 1;
-      System.out.println("setted: " + n + " at index: " + temps);
-      System.out.println(Arrays.toString(elements));
-   }
+    /**
+     *
+     * @return a new iterator
+     */
 
-   /**
-    *
-    * @param arr array passed to be extended
-    * @return an array
-    * UNUSED for now
-    */
+    public Iterator<Integer> iterator()
+    {
+        return new ArraySetIterator();
+    }
 
-   public static int[] extend(int[] arr) {
-      int[] elementsExtender = new int[arr.length * 2];
-      System.arraycopy(arr,0,elementsExtender,elementsExtender.length-1,arr.length);
-      return elementsExtender;
-   }
+    /**
+     *
+     * @param n integer
+     * @return boolean test
+     */
+    public boolean test(int n)
+    {
+        if (n < smallest || n > largest) return false;
+        for (int i = 0; i < elementCount; i++)
+            if (elements[i] == n) return true;
+        return false;
+    }
 
-   // Don't change any of these (but add javadoc)
+    /**
+     *
+     * @param n remove int
+     */
+    public void clear(int n)
+    {
+        //System.out.println(Arrays.toString(elements) + " " + elementCount);
+        for (int i = 0; i < elementCount; i++)
+            if (elements[i] == n)
+            {
+                //System.out.println("ele - 1 " + elements[elementCount - 1]);
+                elements[i] = elements[elementCount - 1];
+                elementCount--;
+                modCountg++;
+                if (n == smallest)
+                {
+                    smallest = Integer.MAX_VALUE;
+                    for (int k = 0; k < elementCount; k++)
+                        smallest = Math.min(elements[k], smallest);
+                }
+                if (n == largest)
+                {
+                    largest = Integer.MIN_VALUE;
+                    for (int k = 0; k < elementCount; k++)
+                        largest = Math.max(elements[k], largest);
+                }
+            }
 
-   /**
-    *
-    * @return smallest number
-    */
+    }
 
-   public int min()
-   {
-      this.smallest = Integer.MAX_VALUE;
-      for (int i = 0; i < elementCount; i++) {
-         if (elements[i] < smallest) {
-            this.smallest = elements[i];
-         }
-      }
+    /**
+     *
+     * @param n set the integer
+     */
 
-      return smallest;
-   }
+    public void set(int n)
+    {
+//        System.out.println(Arrays.toString(elements) + " " + elementCount);
+//        System.out.println("This statement is " + test(n) + " for " + n);
 
-   /**
-    *
-    * @return largest number
-    */
-   public int max()
-   {
-      this.largest = Integer.MIN_VALUE;
+        if (!test(n)) { // if false, or if not found then set
+            if (elements == null) {
+                elements = new int[10];
+            } else if (elements.length == elementCount) {
+                elements = Arrays.copyOf(elements, 2 * elements.length);
+            }
+            elements[elementCount] = n;
+            smallest = Math.min(smallest, n);
+            largest = Math.max(largest, n);
+            elementCount++;
+            modCountg++;
+        } else {
+            System.out.println(n + " already included");
+        }
+    }
+
+    /**
+     *
+     * @return the smallest element
+     */
+    public int min()
+    {
+        return smallest;
+    }
+
+    /**
+     *
+     * @return largest element
+     */
+    public int max()
+    {
+        return largest;
+    }
+
+    /**
+     *
+     * @return the size of the array
+     */
+    public int size()
+    {
+        return elementCount;
+    }
 
 
-      for(int i = 0; i < elementCount; i++) {
-         if (elements[i] > largest) {
-            this.largest = elements[i];
-         }
-      }
-      return largest;
-   }
 
-   /**
-    *
-    * @return the amount of elements
-    */
-   public int size()
-   {
-      return elementCount;
-   }
-
-   /**
-    * Declared Objects left visible to unit test
-    */
-   // These are left package visible so they can be accessed in a unit test
-
-   int largest = Integer.MIN_VALUE;
-   int smallest = Integer.MAX_VALUE;
-   int[] elements;
-   int zerIndex;
-   int elementCount;
-   boolean test;
-   int temp;
-
+    int modCountg;
+    int smallest = Integer.MAX_VALUE;
+    int largest = Integer.MIN_VALUE;
+    int[] elements;
+    int elementCount;
 }
+

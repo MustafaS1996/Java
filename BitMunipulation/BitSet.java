@@ -1,206 +1,256 @@
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-/**
- * Author: Syed Mustafa Sarwar
- *
- */
-public class BitSet implements IntSet {
-   /**
-    * Setter for IntSet
-    */
-   public BitSet() {
-      this.elements = new int[10];
-      this.elementCount = 0;
-      this.started = true;
-      this.setted = false;
-      this.test = false;
-      elM = new ArrayList<Integer>();
-   }
+public class BitSet implements IntSet
+{
+    /**
+     * create an iterator
+     */
 
-   /**
-    *
-    * @param n recieves an int
-    * @return boolean return if present
-    */
+    private class BitSetIterator implements Iterator<Integer>
+    {
+        private int nextIndex =0;
+        private int index = 0;
+        private int arrIndex;
+        private int currentEl;
+        private boolean afterNext;
+        public int modCountl = modCountg;
 
-   public boolean test(int n) {
-      int z = ((n - start) / 32);
-      int i = ((n - start) % 32);
-      if (0 <= i && i < 32) {
-         if (test(elements[z], i)) {
-            test = true;
-         }else {
-            test = false;
-         }
-      }else {
-         test = false;
-      }
-      return test;
-   }
-
-   /**
-    *
-    * @param n set the recieved int to array
-    */
-
-   public void set(int n) {
-      setted = false;
-      if (started == true) {
-         this.start = n;
-         elM.add(n);
-         //z is an index of the elements array starting from 0-9
-         //i is the bit in z to be turned on
-         int z = (n - start) / 32;
-         int i = (n - start) % 32;
-         int temp = elements[z];
-         elements[z] = set(temp, i);
-         this.elementCount++;
-         smallest = start;
-         largest = start;
-         System.out.println("started " + n + " in length " + elements.length + " index: " + z);
-         System.out.println(Arrays.toString(elements));
-         this.started = false;
-      }else {
-         while (setted == false) {
-            if (n >= start && n < start + (elements.length * 32)) {
-               elM.add(n);
-               int z = ((n - start) / 32); // 132 - 100 / 32 = 32 /32 = 1 ... 200 - 100 / 32 = 3
-               int i = ((n - start) % 32);
-               int temp = elements[z];
-               elements[z] = set(temp, i);
-               this.elementCount++;
-               if (n < smallest) {
-                  smallest = n;
-               } else {largest = n;}
-               System.out.println("fits " + n + " in length " + elements.length +  " index: " + z );
-               System.out.println(Arrays.toString(elements));
-               setted = true;
-            } else if (n < start) {
-               elements = Arrays.copyOf(elements, elements.length * 2);
-               System.out.println("expanding... less than " + start + " new length " + elements.length);
-               this.start = n;
-               System.out.println("new start " + start);
-            } else {
-               elements = Arrays.copyOf(elements, elements.length * 2);
-               System.out.println("expanding... greater than " + start + " new length " + elements.length);
+        /**
+         *
+         * @return boolean if next element available
+         */
+        @Override
+        public boolean hasNext() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
             }
-         }
-      }
+            else {return nextIndex < elementCount;}
+        }
 
-
-   }
-
-   /**
-    *
-    * @param n removes the recieved int from array
-    */
-
-   public void clear(int n) {
-
-         int z = ((n - start) / 32);
-         int i = ((n - start) % 32);
-
-         if (test(elements[z],i)) {
-            for (int j = 0; j < elM.size(); j++) {
-               if (elM.get(j) == n){
-                  elM.remove(j);
-               }
+        /**
+         *
+         * @return the next element
+         */
+        @Override
+        public Integer next() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
             }
-            z = ((n - start) / 32);
-            i = ((n - start) % 32);
-            int temp = elements[z];
-            elements[z] = clear(temp, i);
+           else if (hasNext()) {
+                for (int p = arrIndex; p < elements.length; p++) {
+                    for (int i = index; i < 32; i++) {
+                        if (test(elements[p], i)) {
 
-            this.elementCount--;
-            System.out.println("Delete " + n + " in length " + elements.length + " index: " + z);
-            System.out.println(Arrays.toString(elements));
-         }
-         else {
-            System.out.println("Not Found " + n + " in length " + elements.length + " index: " + z);
-            System.out.println(Arrays.toString(elements));
-         }
+                            index = i;
+                            arrIndex = p;
+                            ++index;
+                            ++nextIndex;
+                            currentEl = (i + (start + p * 32));
+                            afterNext = true;
+                            return currentEl;
 
-   }
+                        }
+                        if (i == 31) {
+                            index = 0;
+                        }
 
-   /**
-    *
-    * @return the min in the set of collection of elements
-    */
+                    }
+                }
+            }
+            else {
+                throw new NoSuchElementException();
+            }
+            afterNext = true;
+            return currentEl;
 
-   public int min() {
+        }
 
-      int smallests = Collections.min(elM);
-      return smallests;
-   }
+        /**
+         * remove the current element
+         */
+        @Override
+        public void remove() {
+            if (modCountl != modCountg) {
+                throw new ConcurrentModificationException();
+            }
+            else if (afterNext == false) {
+                throw new IllegalStateException();
+            }
+            else {
+                --nextIndex;
+                clear(currentEl);
+                modCountl++;
+                afterNext = false;
+            }
+        }
+    }
 
-   /**
-    *
-    * @return max in the set of elements
-    */
+    /**
+     *
+     * @return new iterator call
+     */
+    public Iterator<Integer> iterator() {
+        return new BitSetIterator();
+    }
 
-   public int max() {
+    /**
+     *
+     * @param n if is available
+     * @return boolean true if available
+     */
+    public boolean test(int n)
+    {
+        if (elements == null || n < start || n >= start + 32 * elements.length)
+            return false;
+        int p = (n - start) / 32;
+        int i = (n - start) % 32;
+        return test(elements[p], i);
+    }
 
-      int largests = Collections.max(elM);
-      return largests;
-   }
+    /**
+     *
+     * @param n into the bitset
+     */
+    public void set(int n)
+    {
+        if (elements == null)
+        {
+            elements = new int[10];
+            start = n;
 
-   // Don't change any of these (but add javadoc)
+        }
+        else if (n < start)
+        {                  // (100 + 32 * 10 - 99 ) / 32 + 1 == 420 - 99 / 32 + 1
+            int intsNeeded = (start + 32 * elements.length - n) / 32 + 1; // indexes needed to fit the new number
+            int[] newElements = new int[Math.max(intsNeeded, 2 * elements.length)]; // makes array of either 2* original length or the next highest minimum
+            System.arraycopy(elements, 0,
+                    newElements, newElements.length - elements.length,
+                    elements.length);
+            start -= 32 * (newElements.length - elements.length); //make start the smallest possible minimum of bit set
+            elements = newElements; //set newelements array back to the global elements array.
+        }
+        else if (n >= start + 32 * elements.length)
+        {
+            //increase size of elements array either by *2 or the next number of indexes to accomodate new number
+            int intsNeeded = (n - start) / 32 + 1;
+            elements = Arrays.copyOf(elements,
+                    Math.max(intsNeeded, 2 * elements.length));
+        }
+        int p = (n - start) / 32;
+        int i = (n - start) % 32;
+        if (!test(elements[p], i))
+        {
+            elementCount++;
+            elements[p] = set(elements[p], i);
+        }
+        modCountg++;
+    }
 
-   /**
-    *
-    * @return amount of elements in the array elements
-    */
-   public int size() {
-      return elementCount;
-   }
+    /**
+     *
+     * @param n remove from bitset
+     */
+    public void clear(int n)
+    {
+        if (elements != null && n >= start || n < start + 32 * elements.length)
+        {
+            int p = (n - start) / 32;
+            int i = (n - start) % 32;
+            if (test(elements[p], i))
+            {
+                elementCount--;
+                elements[p] = clear(elements[p], i);
+                modCountg++;
+            }
+        }
+    }
 
-   /**
-    *
-    * @param n takes an int
-    * @param i index of bit to be changed
-    * @return boolean if index i is on
-    */
+    /**
+     *
+     * @return return smallest element
+     */
+    public int min()
+    {
+        if (elements != null)
+            for (int p = 0; p < elements.length; p++)
+                for (int i = 0; i < 32; i++)
+                    if (test(elements[p], i)) return 32 * p + i + start;
+        return Integer.MAX_VALUE;
+    }
 
-   private static boolean test(int n, int i) {
-      assert 0 <= i && i < 32;
-      return (n & (1 << i)) != 0;
-   }
+    /**
+     *
+     * @return largest element
+     */
+    public int max()
+    {
+        if (elements!= null)
+            for (int p = elements.length - 1; p >= 0; p--)
+                for (int i = 31; i >= 0; i--)
+                    if (test(elements[p], i)) return 32 * p + i + start;
+        return Integer.MIN_VALUE;
+    }
 
-   /**
-    *
-    * @param n int passed
-    * @param i index of bit in int n to be set
-    * @return new int returned after added
-    */
+    /**
+     *
+     * @return amount of elements
+     */
+    public int size()
+    {
+        return elementCount;
+    }
 
-   private static int set(int n, int i) {
-      assert 0 <= i && i < 32;
-      return n | (1 << i);
-   }
+    /**
+     *
+     * @param n array index
+     * @param i bit index
+     * @return boolean if in set
+     */
+    private static boolean test(int n, int i)
+    {
+        assert 0 <= i && i < 32;
+        return (n & (1 << i)) != 0;
+    }
 
-   /**
-    *
-    * @param n int passed in
-    * @param i index of bit in int n to be cleared
-    * @return new int after clearing
-    */
+    /**
+     *
+     * @param n array index
+     * @param i bit index
+     * @return set bit on and return new int
+     */
 
-   private static int clear(int n, int i) {
-      assert 0 <= i && i < 32;
-      return n & ~(1 << i);
-   }
+    private static int set(int n, int i)
+    {
+        assert 0 <= i && i < 32;
+        return n | (1 << i);
+    }
 
-   // These are left package visible so they can be accessed in a unit test
+    /**
+     *
+     * @param n array index
+     * @param i bit index
+     * @return set bit off and return new int
+     */
 
-   boolean started;
-   boolean setted;
-   boolean test;
-   int[] elements;
-   ArrayList<Integer> elM;
-   int largest = Integer.MIN_VALUE;
-   int smallest = Integer.MAX_VALUE;
-   int start;
-   int elementCount;
+    private static int clear(int n, int i)
+    {
+        assert 0 <= i && i < 32;
+        return n & ~(1 << i);
+    }
+
+    int modCountg;
+    int[] elements;
+    int start;
+    int elementCount;
 }
+
+
+
+
+
+
+
